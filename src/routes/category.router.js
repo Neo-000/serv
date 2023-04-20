@@ -1,17 +1,17 @@
 import express from 'express';
 const router = express.Router();
 
-import { Services } from '../annex/services.js';
-const services = new Services();
+import { Category } from '../annex/category.js';
+const category = new Category();
 
 router.get('/test', (req, res) => {
         res.send('idi naxyi')
 })
 router.post('/add', (req, res) =>{
-    services.Create(req, res);
+    category.Create(req, res);
 })
 
 
 
-const services_router = router;
-export {services_router}
+const category_router = router;
+export {category_router}
