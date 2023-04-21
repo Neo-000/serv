@@ -7,8 +7,11 @@ const category = new Category();
 router.get('/test', (req, res) => {
         res.send('idi naxyi')
 })
-router.post('/add', (req, res) =>{
+router.post('/add', (req, res) => {
     category.Create(req, res);
+})
+router.post('/update', (req,res) => {
+    category.Update(req,res);
 })
 
 
