@@ -25,7 +25,7 @@ class Services{
             err => {console.err('неуспешно class Services.Create()', req.body, ' err = ', err)}
           );
           
-        await category.updateOne({_id:req.body.category_id}, {services:NewServices}).then(
+        await category.updateOne({_id:req.body.category_id}, {$push: {services:NewServices}}).then(
                 (result) => {console.log(result)},
                 err => {console.log(err)}
             )
