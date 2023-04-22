@@ -16,6 +16,18 @@ router.post('/update', (req,res) => {
 router.post('/delete', (req,res) => {
     category.Delete(req,res);
 })
+router.post('/getname', (req,res) => {
+    category.GetNameCategory(req,res);
+})
+router.post('/getservices', (req,res) => {
+    category.GetServicesCategory(req,res);
+})
+router.get('/getall', (req,res) => {
+    category.GetAll(req,res);
+})
+router.post('/getall', (req,res) => {
+    category.GetAll(req,res);
+})
 
 
 
