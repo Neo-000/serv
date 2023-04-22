@@ -6,7 +6,7 @@ import { DbConnect } from "./dbinit.js";
 const db = new DbConnect();
 class Category{
 
-    async Create(req,res){
+  async Create(req,res){
         if(Object.keys(req.body).length){
           let NewCategory = new category({
             _id: new mongoose.Types.ObjectId(),
@@ -32,7 +32,7 @@ class Category{
         }
     }
 
-    async Update(req,res){
+  async Update(req,res){
         if(Object.keys(req.body).length){
           await db.on();
           const elem = await category.find({_id:req.body._id});
@@ -92,6 +92,82 @@ class Category{
           return console.log('данных нету бля', req.body)
       }
   }
-}
+  async GetNameCategory(req,res){
+    if(Object.keys(req.body).length){
+         await db.on();
+         const getcategory = await category.find({_id:req.body._id});
+         const name = getcategory[0].name;
+         if(name != undefined & name != null & name != ''){
+          res
+          .status(200)
+          .send(name)
+         } else {
+          res
+          .status(404)
+          .send('nu naher')
+         }
+
+         await db.off();
+    } else {
+          res
+          .status(400)
+          .send('idi nahui')
+          return console.log('данных нету бля', req.body)
+      }
+  }
+  async GetServicesCategory(req,res){
+    if(Object.keys(req.body).length){
+         await db.on();
+         const getcategory = await category.find({_id:req.body._id});
+         const Category_services = getcategory[0].services;
+         if(Category_services != undefined & Category_services != null){
+          if(Category_services.length < 1){
+            res
+              .status(404)
+              .send({
+                msg:'еще не добавили ни одной услуги в эту категорию'
+              })
+           } else {
+            if (services.length > 0) {
+              res
+              .status(200)
+              .send({
+                item: Category_services.length,
+                services:Category_services
+              })
+            }
+           }
+         } else {
+          res
+          .status(404)
+          .send('services')
+         }
+
+         await db.off();
+    } else {
+          res
+          .status(400)
+          .send('idi nahui')
+          return console.log('данных нету бля', req.body)
+      }
+  }
+  async GetAll(req,res){
+         await db.on();
+         const allCategory = await category.find({});
+         if(allCategory != '' & allCategory != undefined & allCategory != null){
+          res
+          .status(200)
+          .send({
+            item:allCategory.length,
+            msg:allCategory
+          })
+         } else {
+          res.status(404).send({msg:'Еще нет ни одной категории'})
+         }
+
+         return await db.off();
+      }
+  }
+
 
 export {Category}
