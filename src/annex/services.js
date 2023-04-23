@@ -37,6 +37,103 @@ class Services{
             return console.log('данных нету бля', req.body)
         }
     }
+    async Update(req,res){
+      if(Object.keys(req.body).length){
+        await db.on();
+        let updateServices = await services.find({_id:req.body._id});
+        let nameOld = updateServices[0].name,
+            priceOld = updateServices[0].price;
+        let name = '',
+            price = '';
+        if(req.body.name != nameOld & req.body.name != undefined & req.body.name != ''){
+          name = req.body.name;
+        }else{
+          name = nameOld;
+        }
+        if(req.body.price != priceOld & req.body.price != undefined & req.body.price != ''){
+          price = req.body.price
+        } else {
+          price = priceOld;
+        }
+        await services.updateOne({_id:req.body._id},{
+          name:name,
+          price:price
+        }).then(
+          (result) => {console.log('update services')},
+          err => {console.log(err)}
+        )
+        await db.off();
+        return res.status(200).send('ok')
+        
+      }else{
+            res
+            .status(400)
+            .send('idi nahyi')
+            return console.log('данных нету бля', req.body)
+      }
+    }
+    async UdateNameCategory(req,res){
+      if(Object.keys(req.body).length){
+        await db.on();
+        const id = req.body._id,
+              NewIdCategory = req.body.category_id,
+              CurrentServices = await services
+              .find({_id:id})
+              .then(
+                (result) => {return result},
+                err => {console.log(err); return res.status(404).send(err)}
+              ),
+              CurrentCategory = await category
+              .find({_id:CurrentServices[0].category_id})
+              .then(
+                (result) => {return result},
+                err => {console.log(err); return res.status(404).send(err)}
+              ),
+              NewCategory = await category
+              .find({_id:NewIdCategory})
+              .then(
+                (result) => {return result},
+                err => {console.log(err); return res.status(404).send(err)}
+              );
+        const data ={
+          id:id,
+          NewIdCategory:NewIdCategory,
+          CurrentCategoryId:CurrentServices[0].category_id,
+          CurrentServices:CurrentServices[0],
+          CurrentCategory:CurrentCategory[0],
+          NewCategory:NewCategory[0]
+        }
+        if(Object.keys(data).length != 0){
+          await category
+          .updateOne({_id:data.CurrentCategoryId},{$pull: {services:data.id}})
+          .then(
+            (result) => {console.log(result)},
+            err => {console.log(err); return res.status(404).send(err)}
+          )
+          await category
+          .updateOne({_id:data.NewIdCategory},{$push: {services:data.id}})
+          .then(
+            (result) => {console.log(result)},
+            err => {console.log(err); return res.status(404).send(err)}
+          )
+          await services
+          .updateOne({_id:data.id},{category_id:data.NewIdCategory})
+          .then(
+            (result) => {console.log(result)},
+            err => {console.log(err); return res.status(404).send(err)}
+          )
+          res.status(200).send('update name category')
+        }else{
+          return res.status(404).send('ошибка при обработке')
+        }
+        return await db.off(); 
+      }else{
+            res
+            .status(400)
+            .send('idi nahyi')
+            return console.log('данных нету бля', req.body)
+      }
+    }
 }
 
 export {Services}
