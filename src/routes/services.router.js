@@ -10,6 +10,12 @@ router.get('/test', (req, res) => {
 router.post('/add', (req, res) =>{
     services.Create(req, res);
 })
+router.post('/update', (req,res) => {
+    services.Update(req,res)
+})
+router.post('/update/name/category', (req,res) => {
+    services.UdateNameCategory(req,res)
+})
 
 
 
