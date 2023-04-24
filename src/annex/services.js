@@ -156,6 +156,26 @@ class Services{
             return console.log('данных нету бля', req.body)
       }
     }
+    async GetAll(req,res){
+      if(Object.keys(req.body).length){
+        await db.on()
+        const allServices = await services.find({}).then(
+          (r) => {
+            res.status(200).send({
+              items:allServices.length,
+              allServices:allServices
+            })
+          },
+          err => {res.status(404).send('не добавлено ни одной услуги')}
+        )
+      return await db.off();
+      } else {
+        res
+        .status(400)
+        .send('idi nahyi')
+        return console.log('данных нету бля', req.body)
+      }
+    }
 }
 
 export {Services}
