@@ -134,6 +134,28 @@ class Services{
             return console.log('данных нету бля', req.body)
       }
     }
+    async Delete(req,res){
+      if(Object.keys(req.body).length){
+        const id = req.body._id;
+        const category_id = req.body.category_id;
+        await db.on();
+        await category.updateOne({_id:category_id}, {$pull :{services:id}}).then(
+          (result) => {console.log(result)},
+          err => {return res.status(404).send('не привязан ни к одной из категорий')}
+        )
+        await services.deleteOne({_id:id}).then(
+          (result) => {res.status(200).send('услуга удалена')},
+          err => (res.status(404).send('не нашлось такой услуги'))
+        )
+        return await db.off();
+        
+      }else{
+            res
+            .status(400)
+            .send('idi nahyi')
+            return console.log('данных нету бля', req.body)
+      }
+    }
 }
 
 export {Services}

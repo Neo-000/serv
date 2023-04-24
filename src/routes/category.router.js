@@ -25,9 +25,7 @@ router.post('/getservices', (req,res) => {
 router.get('/getall', (req,res) => {
     category.GetAll(req,res);
 })
-router.post('/getall', (req,res) => {
-    category.GetAll(req,res);
-})
+
 
 
 
