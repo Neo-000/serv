@@ -137,8 +137,9 @@ class Services{
     async Delete(req,res){
       if(Object.keys(req.body).length){
         const id = req.body._id;
-        const category_id = req.body.category_id;
         await db.on();
+        const CurrentService = await services.findOne({_id:id})
+        const category_id = CurrentService.category_id;
         await category.updateOne({_id:category_id}, {$pull :{services:id}}).then(
           (result) => {console.log(result)},
           err => {return res.status(404).send('не привязан ни к одной из категорий')}
@@ -169,6 +170,17 @@ class Services{
           err => {res.status(404).send('не добавлено ни одной услуги')}
         )
       return await db.off();
+      } else {
+        res
+        .status(400)
+        .send('idi nahyi')
+        return console.log('данных нету бля', req.body)
+      }
+    }
+    async GetFilrPriceMore(req,res){
+      if(Object.keys(req.body).length){
+        const minPrice = req.body.min
+
       } else {
         res
         .status(400)
