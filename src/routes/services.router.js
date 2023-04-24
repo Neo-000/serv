@@ -16,6 +16,9 @@ router.post('/update', (req,res) => {
 router.post('/update/name/category', (req,res) => {
     services.UdateNameCategory(req,res)
 })
+router.post('/delete', (req,res) => {
+    services.Delete(req,res);
+})
 
 
 
