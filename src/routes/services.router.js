@@ -13,11 +13,14 @@ router.post('/add', (req, res) =>{
 router.post('/update', (req,res) => {
     services.Update(req,res)
 })
-router.post('/update/name/category', (req,res) => {
+router.post('/update/category', (req,res) => {
     services.UdateNameCategory(req,res)
 })
 router.post('/delete', (req,res) => {
     services.Delete(req,res);
+})
+router.get('/getall', (req,res) => {
+    services.GetAll(req,res);
 })
 
 
