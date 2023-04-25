@@ -5,6 +5,7 @@ const BidModel = new Schema({
       name: String,
       firstname: String,
       surname: String,
+      phone:Number,
       date: String,
       msg: String
 

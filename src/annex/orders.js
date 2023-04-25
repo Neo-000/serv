@@ -1,13 +1,12 @@
 import { services } from "../models/ServicesModel.js";
 import mongoose from "mongoose";
-import { bid } from "../models/BidModel.js";
+import { order } from "../models/OrdersModel.js";
 import { DbConnect } from "./dbinit.js";
 const db = new DbConnect();
 
-class Bid{
+class Order{
     async Create(req,res){
         if(Object.keys(req.body).length){
-
             let data = req.body;
             let date = new Date();
             let tm ={
@@ -15,21 +14,24 @@ class Bid{
                 hour: date.getHours(),
                 minute: date.getMinutes()
             }
-            const NewBid = new bid({
+            const NewOrder = new order({
+                title:data.title,
+                object:data.object,
                 name: data.name,
                 firstname: data.firstname,
                 surname:data.surname,
                 phone:data.phone,
+                price:data.price,
                 date:tm.hour + ':' + tm.minute + ' ' + tm.year + 'г.',
                 msg:data.msg
             })
             await db.on();
-            await NewBid.save().then(
+            await NewOrder.save().then(
                 (result) => {
                     res
                     .status(201)
                     .send(result)
-                    console.log('создана заявка = ', result)
+                    console.log('создан заказ = ', result)
                 },
                 err => {console.log(err)}
               );
@@ -43,7 +45,7 @@ class Bid{
     }
     async GetAll(req,res){
         await db.on();
-        const all_bid = await bid.find({});
+        const all_bid = await order.find({});
         if(all_bid != undefined & all_bid != '' & all_bid.length != ''){
             res
             .status(200)
@@ -54,7 +56,7 @@ class Bid{
         } else {
             res
             .status(200)
-            .send('Заявок пока что нет')
+            .send('Заказов пока что нет')
         }
         return await db.off();
     }
@@ -62,11 +64,11 @@ class Bid{
         const data = req.body;
         if(Object.keys(data).length){
             await db.on();
-            await bid.deleteOne({_id:data.id}).then(
+            await order.deleteOne({_id:data.id}).then(
                 (result) => {
                     res
                     .status(200)
-                    .send('успешно удалена заявка')
+                    .send('успешно удален заказ')
 
                 },
                 err => {
@@ -85,17 +87,17 @@ class Bid{
     }
     async DeleteAll(req,res){
             await db.on();
-            await bid.deleteMany({}).then(
+            await order.deleteMany({}).then(
                 (result) => {
                     res
                     .status(200)
-                    .send('успешно удалены все заявки')
+                    .send('успешно удалены все Заказы')
 
                 },
                 err => {
                     res
                     .status(404)
-                    .send('заявок нет')
+                    .send('Заказов нет')
                 }
             )
             return await db.off();
@@ -103,4 +105,4 @@ class Bid{
     }
 
 
-export {Bid}
+export {Order}
