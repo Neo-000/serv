@@ -1,4 +1,57 @@
 export const api = {
+    "/order":{
+        "/create":{
+            http:"post",
+            title:"создание заказа",
+            shema:{
+                title:"Наименование заказа",
+                object:"Описание обьекта для работ",
+                name:"Имя заказчика",
+                firstname:"Отчетство",
+                surname:"Фамилия",
+                phone:"Номер телефона",
+                price:"Сумма за заказ",
+                date:"дата создания",
+                msg:"Доп информация"
+            }
+        },
+        "/all":{
+            http:"post",
+            title:"получение всех заказов",
+            shema:{
+                "Нет необходимости передавать данные":true
+            }
+        },
+        "/delete":{
+            http:"post",
+            title:"удаление заказов по id",
+            shema:{
+                _id:"id Заказа"
+            }
+        },
+        "/delete_all":{
+            http:"",
+            title:"",
+            shema:{
+                "Нет необходимости передавать данные":true
+            }
+        }
+    },
+    "/bid":{
+        "/create":{
+            http:"post",
+            title:"создание заявки",
+            shema:{
+                name:"Имя заказчика",
+                firstname:"Отчетство",
+                surname:"Фамилия",
+                phone:"Номер телефона",
+                date:"дата создания",
+                msg:"Доп информация"
+            }
+        }
+    },
+
     "/services":{
         "/add":{
             http:"post",
