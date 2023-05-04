@@ -23,6 +23,12 @@ router.post("/api", (req,res) => {
         res.status(400).send('{} !нет данных () => иди нахуй')
     }
 });
+router.get("/api", (req,res) => {
+        res.status(200).send({
+            msg:"АПИШКА СЕРВЕРА",
+            api:api
+        })
+});
 router.use('/services', services_router);
 router.use('/category', category_router);
 router.use('/bid', bid_roter);
